@@ -4,6 +4,7 @@ from uuid import uuid4
 from django.utils.deconstruct import deconstructible
 from django.utils.timezone import now
 from django.contrib.auth import get_user_model
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 
 
@@ -55,7 +56,7 @@ class Folder(models.Model):
 
 
 class Document(models.Model):
-    file = models.FileField(upload_to=path_and_rename, unique=True)
+    file = models.FileField(upload_to=path_and_rename, unique=True, storage=RawMediaCloudinaryStorage())
     status = models.CharField(max_length=1, default='A')
     created_on = models.DateTimeField(default=now)
     last_updated_on = models.DateTimeField(default=now)
