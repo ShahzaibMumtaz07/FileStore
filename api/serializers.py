@@ -2,6 +2,7 @@ from asyncore import write
 from email.policy import default
 import imp
 from os import read
+from django.forms import ValidationError
 from rest_framework import serializers
 from .models import Topic, Folder, Document
 from django.utils.timezone import now
@@ -77,4 +78,24 @@ class DocumentSerializer(serializers.ModelSerializer):
         instance.last_updated_on=now()
         instance.save()
         return instance
+
+
+class GetDocumentSerializer(serializers.Serializer):
+    topic_id = serializers.IntegerField(required = False)
+    folder_id = serializers.IntegerField(required = False)
+    topic_name = serializers.CharField(max_length = 64, required = False)
+    folder_name = serializers.CharField(max_length = 64, required = False)
+
+
+    def validate(self, attrs):
+        if attrs.get('topic_id',None) and not Topic.objects.filter(id = attrs.get('topic_id')).exists():
+            raise serializers.ValidationError('No resource found')
+        if attrs.get('folder_id',None) and not Folder.objects.filter(id = attrs.get('folder_id')).exists():
+            raise serializers.ValidationError('No resource found')
+        if attrs.get('topic_name',None) and not Topic.objects.filter(name = attrs.get('topic_name')).exists():
+            raise serializers.ValidationError('No resource found')
+        if attrs.get('folder_name',None) and not Folder.objects.filter(name = attrs.get('folder_name')).exists():
+            raise serializers.ValidationError('No resource found')
+        return super().validate(attrs)
+
 

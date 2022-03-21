@@ -18,10 +18,31 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from django.conf.urls import url
+
+open_info = openapi.Info(
+      title="Spekit-Challenge",
+      default_version='v1',
+      description="Spekit Home Task Challenge",
+      terms_of_service="#",
+      contact=openapi.Contact(email="shahzaib.mumtaz.20195@gmail.com"),
+      license=openapi.License(name="MIT"),
+   )
+schema_view = get_schema_view(
+   open_info,
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 
 
 urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='obtain_jwt_token'),
+    url(r'', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
     path('api/', include('api.urls'))
 ]
 

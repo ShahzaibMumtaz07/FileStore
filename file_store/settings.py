@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','spekit-challenge-api.herokuapp.com']
@@ -45,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'cloudinary_storage',
     'cloudinary',
     'rest_framework',
-    'api'
+    'api',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -194,6 +196,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'DEFAULT_INFO': 'file_store.urls.open_info'
+}
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
+}
 
 
 django_heroku.settings(locals())
