@@ -424,7 +424,7 @@ class TopicView(APIView):
         if serializer.is_valid():
             serializer.save(created_by = request.user)
             return Response({'error': '', 'error_code': '',
-                        'data': {"topics": True}}, status=200)
+                        'data': {"topics": serializer.data}}, status=200)
         else:
             error = ', '.join(
                 ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
