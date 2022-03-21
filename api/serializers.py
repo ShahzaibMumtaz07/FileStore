@@ -18,7 +18,7 @@ class TopicSerializer(serializers.ModelSerializer):
 
     
     def create(self, validated_data):
-        return super().create(validated_data)
+        return Topic.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.status = validated_data.get('status', instance.status)
@@ -26,14 +26,11 @@ class TopicSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-    # def validate(self, data):
-    #     if data.get('name',None) and not len(data.get('name').strip()) > 0:
-    #         raise serializers.ValidationError('name cannot be empty/blank')
-    #     if data.get('short_description',None) and not len(data.get('short_description').strip()) > 0:
-    #         raise serializers.ValidationError('short_description cannot be empty/blank')
-    #     if data.get('long_description',None) and not len(data.get('long_description').strip()) > 0:
-    #         raise serializers.ValidationError('long_description cannot be empty/blank')
-    #     return data
+    def validate(self, attrs):
+        if attrs.get('status',None) and not attrs.get('status') in ['A','D']:
+            raise serializers.ValidationError('Invalid status. Only A/D')
+        
+        return super().validate(attrs)
 
 
 
@@ -54,6 +51,12 @@ class FolderSerializer(serializers.ModelSerializer):
         instance.last_updated_on=now()
         instance.save()
         return instance
+
+    def validate(self, attrs):
+        if attrs.get('status',None) and not attrs.get('status') in ['A','D']:
+            raise serializers.ValidationError('Invalid status. Only A/D')
+        
+        return super().validate(attrs)
 
 
 
@@ -79,6 +82,11 @@ class DocumentSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def validate(self, attrs):
+        if attrs.get('status',None) and not attrs.get('status') in ['A','D']:
+            raise serializers.ValidationError('Invalid status. Only A/D')
+        
+        return super().validate(attrs)
 
 class GetDocumentSerializer(serializers.Serializer):
     topic_id = serializers.IntegerField(required = False)

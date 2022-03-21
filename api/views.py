@@ -47,8 +47,7 @@ class DocumentView(APIView):
             'error': '{error}',
             'error_code': '{error_code}',
             'data': {}
-        }
-            """
+        }"""
     res_403 = """
         "{
             'error': 'Access Forbidden.',
@@ -109,11 +108,14 @@ class DocumentView(APIView):
         if serializer.is_valid():
             serializer.save(created_by = request.user)
             return Response({'error': '', 'error_code': '',
-                        'data': {"folders": serializer.data}}, status=200)
+                        'data': {"documents": serializer.data}}, status=200)
         else:
             error = ', '.join(
                 ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
-            return Response({'error': error}, status=200)
+            error_code = 'H001'
+            return Response({'error': error,'error_code':error_code,'data':{}}, status=200)
+
+
     @swagger_auto_schema(manual_parameters=[id_2, status, limit_access], responses={200: res_200, 403:res_403,404: res_404, 400: res_400, 401: "Unauthorized"})
     def put(self, request, pk = None):
         if pk:
@@ -125,7 +127,7 @@ class DocumentView(APIView):
                     if serializer.is_valid():
                         serializer.save()
                         return Response({'error': '', 'error_code': '',
-                                    'data': {"folders": serializer.data}}, status=200)
+                                    'data': {"documents": serializer.data}}, status=200)
                     else:
                         error = ', '.join(
                             ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
@@ -203,9 +205,9 @@ class GetDocuments(APIView):
             filter_dict['folder__status'] = 'A'
             filter_dict['folder__topic__status'] = 'A'
             if data.get('topic_id', None):
-                filter_dict['folder__topic__id__in'] = data.get('topic_id')
+                filter_dict['folder__topic__id'] = data.get('topic_id')
             if data.get('folder_id', None):
-                filter_dict['folder__id__in'] = data.get('folder_id')
+                filter_dict['folder__id'] = data.get('folder_id')
             if data.get('topic_name', None):
                 filter_dict['folder__topic__name'] = data.get('topic_name')
             if data.get('folder_name', None):
@@ -233,7 +235,9 @@ class GetDocuments(APIView):
         else:
             error = ', '.join(
                 ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
-            return Response({'error': error}, status=200)
+            error_code = 'H001'
+            return Response({'error': error, 'error_code': error_code,
+                                    'data': {}}, status=200)
 
 
 class FolderView(APIView):
@@ -308,7 +312,10 @@ class FolderView(APIView):
         else:
             error = ', '.join(
                 ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
-            return Response({'error': error}, status=200)
+            error_code = 'H001'
+            return Response({'error': error,'error_code':error_code,'data':{}}, status=200)
+
+
     @swagger_auto_schema(manual_parameters=[id, status], responses={200: res_200, 404: res_404, 400: res_400, 401: "Unauthorized",403:res_403})
     def put(self, request, pk = None):
         if pk:
@@ -333,7 +340,7 @@ class FolderView(APIView):
                                     'data': {}}, status=403)
 
             else:
-                error = 'Invalid document id.'
+                error = 'Invalid folder id.'
                 error_code = 'I001'
                 return Response({'error': error, 'error_code': error_code,
                                 'data': {}}, status=404)
@@ -407,8 +414,9 @@ class TopicView(APIView):
                 return Response({'error': '', 'error_code': '',
                         'data': {"topics": u.data}}, status=200)
             else:
-                error = 'Invalid folder id.'
-                return Response({'error': error}, status=200)
+                error = 'Invalid topic id.'
+                error_code = 'I001'
+                return Response({'error': error, 'error_code':error_code,'data':{}}, status=404)
 
     @swagger_auto_schema(manual_parameters=[name, short_description, long_description,status], responses={200: res_200, 404: res_404, 400: res_400, 401: "Unauthorized"})
     def post(self, request):
@@ -416,11 +424,12 @@ class TopicView(APIView):
         if serializer.is_valid():
             serializer.save(created_by = request.user)
             return Response({'error': '', 'error_code': '',
-                        'data': {"folders": serializer.data}}, status=200)
+                        'data': {"topics": True}}, status=200)
         else:
             error = ', '.join(
                 ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
-            return Response({'error': error}, status=200)
+            error_code = 'H001'
+            return Response({'error': error,'error_code':error_code,'data':{}}, status=200)
 
     @swagger_auto_schema(manual_parameters=[id, short_description, long_description,status], responses={200: res_200, 404: res_404, 400: res_400, 401: "Unauthorized",403:res_403})
     def put(self, request, pk = None):
@@ -433,7 +442,7 @@ class TopicView(APIView):
                     if serializer.is_valid():
                         serializer.save()
                         return Response({'error': '', 'error_code': '',
-                        'data': {"folders": serializer.data}}, status=200)
+                        'data': {"topics": serializer.data}}, status=200)
                     else:
                         error = ', '.join(
                             ['{0}:{1}'.format(k, str(v[0])) for k, v in serializer.errors.items()])
@@ -446,7 +455,7 @@ class TopicView(APIView):
                                     'data': {}}, status=403)
 
             else:
-                error = 'Invalid document id.'
+                error = 'Invalid topic id.'
                 error_code = 'I001'
                 return Response({'error': error, 'error_code': error_code,
                                 'data': {}}, status=404)

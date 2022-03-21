@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import DocumentView,FolderView, TopicView, GetDocuments
 
+app_name = "api"
 
 urlpatterns = [
     path('documents/', DocumentView.as_view(), name = 'documents' ),

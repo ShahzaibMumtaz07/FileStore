@@ -18,10 +18,10 @@ class PathAndRename(object):
 
     def __call__(self, instance, filename):
         filename, ext = os.path.splitext(filename)
-        if instance.pk:
-            filename = '{}_{}{}'.format(filename,instance.pk, ext)
-        else:
-            filename = '{}_{}{}'.format(filename,uuid4().hex, ext)
+        # if instance.pk:
+        #     filename = '{}_{}{}'.format(filename,instance.pk, ext)
+        # else:
+        filename = '{}_{}{}'.format(filename,uuid4().hex, ext)
         return os.path.join(self.path, filename)
 
 path_and_rename = PathAndRename('uploads')
