@@ -110,11 +110,11 @@ if 'test' in sys.argv:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'case_management_db',
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'NAME': config('TEST_DB_NAME'),
+        'USER': config('TEST_DB_USER'),
+        'PASSWORD': config('TEST_DB_PASSWORD'),
+        'HOST': config('TEST_DB_HOST'),
+        'PORT': config('TEST_DB_PORT'),
     }
 }
 
@@ -214,6 +214,9 @@ SWAGGER_SETTINGS = {
 REDOC_SETTINGS = {
    'LAZY_RENDERING': False,
 }
+
+TEST_RUNNER = 'tests.utils.UnManagedModelTestRunner'
+
 
 
 django_heroku.settings(locals())
