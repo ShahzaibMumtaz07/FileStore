@@ -41,7 +41,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='obtain_jwt_token'),
-    url(r'', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # url(r'', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     path('api/', include('api.urls'))
 ]
