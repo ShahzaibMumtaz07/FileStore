@@ -123,8 +123,6 @@ class APITest(TestCase):
 
         f.topic.add(t)
 
-        # temp_file = SimpleUploadedFile("tests/index.png", "file_content", content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
         d = Document.objects.create(
             file = 'tests/index.png',
             created_by = self.user
@@ -176,8 +174,7 @@ class APITest(TestCase):
         self.assertEquals(resp.status_code, 200)
         self.assertEquals(resp.data['error'], '')
         self.assertEquals(resp.data['error_code'], '')
-        # t = Topic.objects.filter(id = topic_data.get('id')).exists()
-        # self.assertEquals(t,True)
+        
 
 
     def test_create_folder(self):
@@ -191,12 +188,6 @@ class APITest(TestCase):
             long_description = 'Topic sdadasd sdasdasd sadasdasd aasdsadasd sadasdasdas asdasdasdasdas sa dasdasdas',
             created_by = self.user
         )
-        # f = Folder.objects.create(
-        #     name = 'Folder 1',
-        #     created_by = self.user
-        # )
-
-        # f.topic.add(t)
         query = {
             "name": "Folder 1",
             "topic" : t.id
@@ -239,13 +230,7 @@ class APITest(TestCase):
         f.topic.add(t)
 
         temp_file = SimpleUploadedFile("tests/index.png", open('tests/index.png', 'rb').read(), content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
-        # d = Document.objects.create(
-        #     file = 'tests/index.png',
-        #     created_by = self.user
-        # )
-        # d.folder.add(f)
-
+        
         url = reverse('api:documents')
         token = resp.data.get('token', None)
         self.client_.credentials(HTTP_AUTHORIZATION='JWT {}'.format(token))
@@ -357,8 +342,7 @@ class APITest(TestCase):
 
         f.topic.add(t)
 
-        # temp_file = SimpleUploadedFile("tests/index.png", open('tests/index.png', 'rb').read(), content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
+        
         d = Document.objects.create(
             file = 'tests/index.png',
             created_by = self.user
@@ -408,8 +392,7 @@ class APITest(TestCase):
 
         f.topic.add(t)
 
-        # temp_file = SimpleUploadedFile("tests/index.png", "file_content", content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
+        
         d = Document.objects.create(
             file = 'tests/index.png',
             created_by = self.user,
@@ -458,8 +441,7 @@ class APITest(TestCase):
 
         f.topic.add(t)
 
-        # temp_file = SimpleUploadedFile("tests/index.png", "file_content", content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
+        
         d = Document.objects.create(
             file = 'tests/index.png',
             created_by = self.user,
@@ -508,8 +490,7 @@ class APITest(TestCase):
 
         f.topic.add(t)
 
-        # temp_file = SimpleUploadedFile("tests/index.png", "file_content", content_type="image/png")
-        # with open('tests/index.png','rb') as f:    
+        
         d = Document.objects.create(
             file = 'tests/index.png',
             created_by = self.user,

@@ -65,7 +65,6 @@ class DocumentSerializer(serializers.ModelSerializer):
     status = serializers.CharField(write_only = True, default='A')
     folder = serializers.PrimaryKeyRelatedField(read_only = False, many = True, queryset=Folder.objects.all())
     limit_access = serializers.BooleanField(write_only=True,default = False)
-    # file_url = serializers.URLField(read_only = True,source = 'file.url')
     
     class Meta:
         model = Document

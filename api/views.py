@@ -88,19 +88,6 @@ class DocumentView(APIView):
                 if query_list:
                     results = self.serializer(query_list,context= context, many = True)
                     
-                    # print()
-                    # url = results.data[0].get('file')
-                    # print(url)
-                    # parse_url = urlparse(url)
-                    # m = magic.Magic(mime=True)
-                    # r = requests.get(url)
-                    # f = io.BytesIO()
-                    # f.write(r.content)
-                    # print(m.from_buffer(f.getvalue()))
-                    # response = HttpResponse(f.getvalue(),content_type='application/force-download')
-                    # response['Content-Length'] = len(response.content)
-                    # response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(os.path.basename(parse_url.path))
-                    # return response
                     return Response({'error': '', 'error_code': '',
                             'data': {"documents": results.data}}, status=200)
                 else:
