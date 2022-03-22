@@ -1,0 +1,11 @@
+[run]
+source = ./api
+omit = ./tests/*
+    ./api/tests.py
+	*__init__*
+	*admin*
+	./file_store/*
+	manage.py
+	./api/migrations/*
+	./api/apps.py
+	*jj.py*
