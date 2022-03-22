@@ -23,7 +23,7 @@ python manage.py test tests
 ```
 
 ## Test Coverage
-###Run coverage script
+### Run coverage script
 ```bash
 bash coverage_test.sh
 ```
